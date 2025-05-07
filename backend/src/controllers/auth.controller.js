@@ -1,10 +1,14 @@
 import { generateToken } from "../lib/utils.js";    
 import User from "../models/user.model.js";
+import bcrypt from "bcrypt";
 
 
 export const signup = async (req,res)=>{ 
     const {fullName,email,password,profilePic} = req.body;
-    try {
+    try {if(!fullName || !email || !password){
+            return res.status(400).json({message:"all fields are required"});
+        }
+
         //hash password
         if(password.length < 6){
             return res.status(400).json({message:"Password should be at least 6 characters long"});
@@ -13,17 +17,17 @@ export const signup = async (req,res)=>{
 
         if(user) return res.status(400).json({message:"User already exists"});
 
-        const salt = await bccrypt.genSalt(10);
+        const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password,salt);
         const newUser = new User({
             fullName,
             email,
-            password:hashedPassword,
+            password : hashedPassword,
         });
 
         if(newUser){
             //generate jwt token here
-              generateToken(newUser._id,req)
+              generateToken(newUser._id,res)
               await newUser.save();
 
               res.status(201).json({
