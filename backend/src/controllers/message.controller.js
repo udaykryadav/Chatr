@@ -28,6 +28,10 @@ export const getMessages = async (req, res) => {
         const {id:userToChatId}= req.params
         const myid = req.user._id;
 
+        if (!userToChatId || !myid) {
+       return res.status(400).json({ message: "Missing sender or receiver ID" });
+       }
+
         const messages = await Message.find({
             $or: [
                 { senderid: myid, receiverid: userToChatId },
