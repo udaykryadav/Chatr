@@ -18,12 +18,18 @@ import {Loader} from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 
 
+
 const App = () => {
+
 
   const{authUser,checkAuth,ischeckingAuth}= useAuthStore();
 
   const { theme } = useThemeStore(); 
-
+  
+  useEffect(() => {
+    checkAuth(); // ✅ Runs once on page load
+  }, []);
+  
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);

@@ -8,9 +8,10 @@ export const ChatContainer = () => {
   const {messages,getMessages,isMessagesLoading,selectedUser} = useChatStore();
 
   useEffect(() => {
+  if (selectedUser?._id) {
     getMessages(selectedUser._id);
-
-  },[selectedUser?._id, getMessages])
+  }
+}, [selectedUser?._id]);
 
 
   if (isMessagesLoading){ 

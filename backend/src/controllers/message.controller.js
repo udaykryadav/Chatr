@@ -55,11 +55,27 @@ export const sendMessage = async (req, res) => {
         const {id:receiverid} = req.params;
         const senderid = req.user._id;
 
+         if (!receiverid || receiverid === "undefined") {
+      console.error("Missing or invalid receiverid in URL:", receiverid);
+      return res.status(400).json({ message: "Invalid receiver ID" });
+    }
+    
         let imageUrl;
-        if(image){
-            // Upload image to Cloudinary
-            const upLoadResponse = await cloudinary.uploader.upload(image);
+        // if(image){
+        //     // Upload image to Cloudinary
+        //     const upLoadResponse = await cloudinary.uploader.upload(image);
+        //     imageUrl = upLoadResponse.secure_url;
+        // }
+        if (image) {
+        try {
+            const upLoadResponse = await cloudinary.uploader.upload(image, {
+            folder: "chatr_uploads", // optional: helps organize uploads
+            });
             imageUrl = upLoadResponse.secure_url;
+        } catch (uploadErr) {
+            console.error("Cloudinary upload failed:", uploadErr.message);
+            return res.status(400).json({ message: "Image upload failed" });
+        }
         }
         const newMessage = await Message({
             senderid,
