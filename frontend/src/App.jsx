@@ -28,7 +28,7 @@ const App = () => {
   
   useEffect(() => {
     checkAuth(); // ✅ Runs once on page load
-  }, []);
+  }, [checkAuth]);
   
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
