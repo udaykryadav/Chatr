@@ -4,5 +4,24 @@
   },
   "devDependencies": {
     "tailwindcss": "^4.1.11"
-  }
+  },
+  "name": "chatr",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build" : "",
+    "start" : ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udaykryadav/Chatr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/udaykryadav/Chatr/issues"
+  },
+  "homepage": "https://github.com/udaykryadav/Chatr#readme",
+  "description": ""
 }
