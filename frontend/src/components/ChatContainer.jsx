@@ -19,9 +19,9 @@ export const ChatContainer = () => {
     if (selectedUser?._id) {
       getMessages(selectedUser._id);
 
-      subscribeToMessages();
+      subscribeToMessages(selectedUser._id);
 
-      return () =>unsubscribeFromMessages();
+      return () =>unsubscribeFromMessages(selectedUser._id);
     }
     }, [selectedUser?._id,getMessages,subscribeToMessages,unsubscribeFromMessages]);
 
@@ -53,17 +53,17 @@ export const ChatContainer = () => {
         {messages.map((message) => (
           <div key= {message._id} 
           
-          className={`chat ${message.senderid === authUser._id ? 'chat-end' : 'chat-start'}`}
+          className={`chat ${String(message.senderid) === String(authUser._id) ? 'chat-end' : 'chat-start'}`}
            ref={messagesEndRef}
           >
             <div className='chat-image avatar'>
               <div className='size-10 rounded-full border'>
                 <img 
-                  src=
-                  {message.senderid===authUser._id
-                    ? authUser.profilePic ||"/avatar.png" 
+                  src={
+                  String(message.senderid) === String(authUser._id)
+                    ? authUser.profilePic || "/avatar.png"
                     : selectedUser.profilePic || "/avatar.png"
-                  }  
+                }
                 
                 alt="profile pic" 
               />
@@ -76,7 +76,7 @@ export const ChatContainer = () => {
               <time className='text-xs opacity-50 ml-1'>
                 {formatMessageTime(message.createdAt)}
 
-              </time>
+              </time> 
             </div>
             <div className='chat-bubble flex flex-col'>
               {message.image && (

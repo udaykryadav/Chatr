@@ -91,10 +91,13 @@ export const sendMessage = async (req, res) => {
 
         //todo: real-time functionality goes here => socket.io
         const receiverSocketId = getReceiverSocketId(receiverid);
+         const senderSocketId = getReceiverSocketId(senderid);
         if (receiverSocketId) {
-            io.to(receiverSocketId).emit("newMessage", newMessage)
-
-        };
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
+        if (senderSocketId) {
+            io.to(senderSocketId).emit("newMessage", newMessage);
+        }
 
         res.status(201).json(newMessage);
 
